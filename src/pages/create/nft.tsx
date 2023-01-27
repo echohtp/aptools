@@ -210,6 +210,21 @@ export default function Home() {
                                             const response = await signAndSubmitTransaction(payload);
                                             await client.waitForTransaction(response?.hash || "");
                                             toast("success")
+
+
+                                            setNftCollection("")
+                                            setCid("")
+                                            setNftName("")
+                                            setNftDescription("")
+
+                                            //@ts-ignore
+                                            document.getElementById("name").value=""
+                                            //@ts-ignore
+                                            document.getElementById("about").value=""
+                                            //@ts-ignore
+                                            document.getElementById("collection").value=""
+
+
                                         } catch (error: any) {
                                             console.log("error", error);
                                             toast(error)

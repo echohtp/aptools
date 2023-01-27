@@ -147,9 +147,12 @@ export default function Home() {
                                                 setCollectionDescription("")
                                                 setCollectionUrl("")
 
-                                                document.getElementById("name")?.value=""
-                                                document.getElementById("description")?.value=""
-                                                document.getElementById("url")?.value=""
+                                                //@ts-ignore
+                                                document.getElementById("name").value=""
+                                                //@ts-ignore
+                                                document.getElementById("description").value=""
+                                                //@ts-ignore
+                                                document.getElementById("url").value=""
                                                 
                                             } catch (error: any) {
                                                 console.log("error", error);
