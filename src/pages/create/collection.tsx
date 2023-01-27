@@ -105,7 +105,7 @@ export default function Home() {
                                             <input
                                                 type="text"
                                                 name="name"
-                                                id="name"
+                                                id="url"
                                                 className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                                 placeholder=""
                                                 onChange={(e) => {
@@ -143,6 +143,14 @@ export default function Home() {
                                                 const response = await signAndSubmitTransaction(payload);
                                                 await client.waitForTransaction(response?.hash || "");
                                                 toast("success")
+                                                setCollectionName("")
+                                                setCollectionDescription("")
+                                                setCollectionUrl("")
+
+                                                document.getElementById("name")?.value=""
+                                                document.getElementById("description")?.value=""
+                                                document.getElementById("url")?.value=""
+                                                
                                             } catch (error: any) {
                                                 console.log("error", error);
                                                 toast(error)
