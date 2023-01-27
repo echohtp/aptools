@@ -57,7 +57,7 @@ export default function WalletSelector({open, setOpen}:WalletSelectorProps ) {
                 </div>
 
                 <div className="mt-5 sm:mt-6">
-                    Solana: <SolanaWalletSelector/>
+                    Solana: <div className='bg-purple-600'><SolanaWalletSelector/></div>
                 </div>
 
                 <div className="mt-5 sm:mt-6">
