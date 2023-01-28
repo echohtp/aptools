@@ -12,7 +12,7 @@ import {
 } from '@metaplex-foundation/js'
 import { BarLoader } from "react-spinners";
 import { toast } from "react-toastify";
-
+import * as ga from '@/lib/ga'
 
 const fileTypes = ["JPG", "PNG", "GIF", "JPEG", "MP4", "GLB", "HTML"];
 const coverFileType = ["JPG", "PNG", "JPEG"];
@@ -347,9 +347,13 @@ const SolanaNftMinter = () => {
                             uri: `https://ipfs.io/ipfs/${cid}`
                         }).catch((e) => {
                             toast(e)
-                         }).finally(() => {
+                        }).finally(() => {
                             toast("Done!")
                             setMintLoading(false)
+                            ga.event({
+                                action: 'solana_nft_minted',
+                                params: { who: wallet.publicKey?.toBase58() }
+                            })
                         })
 
                     }}

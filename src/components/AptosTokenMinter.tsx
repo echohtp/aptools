@@ -8,6 +8,7 @@ import { TransactionPayload } from '@martiandao/aptos-web3.js/dist/api/data-cont
 import { toast } from 'react-toastify'
 import { Button } from 'antd'
 import { BarLoader } from 'react-spinners'
+import * as ga from '@/lib/ga'
 
 
 const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
@@ -387,6 +388,11 @@ const AptosTokenMinter = () => {
                             document.getElementById("about").value = ""
                             //@ts-ignore
                             document.getElementById("collection").value = ""
+
+                            ga.event({
+                                action: 'aptos_nft_minted',
+                                params: {who: wallet.account?.address}
+                            })
 
 
                         } catch (error: any) {

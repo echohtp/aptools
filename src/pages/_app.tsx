@@ -6,7 +6,7 @@ import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import * as ga from '../lib/ga'
+import * as ga from '@/lib/ga'
 import { useMemo } from "react";
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';

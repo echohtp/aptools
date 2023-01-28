@@ -8,6 +8,8 @@ import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { TransactionPayload } from '@martiandao/aptos-web3.js/dist/api/data-contracts';
 import { toast } from 'react-toastify'
 import {Button} from 'antd'
+import * as ga from '@/lib/ga'
+
 export default function AptosCollectionMinter() {
 
     const client = new AptosClient(process.env.NEXT_PUBLIC_APTOS_URL!);
@@ -150,6 +152,11 @@ export default function AptosCollectionMinter() {
                                         document.getElementById("description").value = ""
                                         //@ts-ignore
                                         document.getElementById("url").value = ""
+
+                                        ga.event({
+                                            action: 'aptos_collection_minted',
+                                            params: {who: wallet.account?.address}
+                                        })
 
                                     } catch (error: any) {
                                         console.log("error", error);

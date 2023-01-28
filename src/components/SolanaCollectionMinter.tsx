@@ -11,6 +11,7 @@ import {
     toMetaplexFileFromBrowser,
 } from '@metaplex-foundation/js'
 import { toast } from "react-toastify";
+import * as ga from '@/lib/ga'
 
 const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
 
@@ -225,6 +226,11 @@ const SolanaCollectionMinter = () => {
                             toast("Verifying successful!")
                             toast("Done!")
                             setMintLoading(false)
+
+                            ga.event({
+                                action: 'solana_collection_minted',
+                                params: {who: wallet.publicKey?.toBase58()}
+                            })
                         }
 
                         setMintLoading(false)
