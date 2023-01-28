@@ -121,7 +121,7 @@ const AptosWalletNftViewer = () => {
                                     name="address"
                                     id="address"
                                     className="block w-full rounded-none rounded-l-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
-                                    placeholder={address}
+                                    placeholder={String(address)}
                                     onChange={(e)=>{
                                         setSearchAddress(e.target.value)
                                     }}
