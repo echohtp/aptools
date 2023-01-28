@@ -1,10 +1,12 @@
 import { AppContext } from "@/components/AppContext";
+import { useEffect } from 'react'
+import { useRouter } from 'next/router'
 
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
+import * as ga from '../lib/ga'
 import { useMemo } from "react";
 import { ConnectionProvider, WalletProvider } from '@solana/wallet-adapter-react'
 import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
@@ -35,6 +37,7 @@ require('@solana/wallet-adapter-react-ui/styles.css');
 function MyApp({ Component, pageProps }: AppProps) {
 
   const network = WalletAdapterNetwork.Mainnet;
+  const router = useRouter()
 
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
@@ -51,6 +54,21 @@ function MyApp({ Component, pageProps }: AppProps) {
     ],
     [network]
   );
+
+  useEffect(() => {
+    const handleRouteChange = (url: string) => {
+      ga.pageview(url)
+    }
+    //When the component is mounted, subscribe to router changes
+    //and log those page views
+    router.events.on('routeChangeComplete', handleRouteChange)
+
+    // If the component is unmounted, unsubscribe
+    // from the event with the `off` method
+    return () => {
+      router.events.off('routeChangeComplete', handleRouteChange)
+    }
+  }, [router.events])
 
 
 
