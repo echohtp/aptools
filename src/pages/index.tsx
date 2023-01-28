@@ -24,6 +24,13 @@ const items = [
     icon: CalendarIcon,
     background: 'bg-yellow-500',
     href: "/create/nft"
+  },
+  {
+    title: 'Wallet Viewer',
+    description: 'Take a look at the NFTs in a wallet',
+    icon: CalendarIcon,
+    background: 'bg-yellow-500',
+    href: "/view/aptos/0x9575253d99d957f23c8085924b7c91b23f5d49c1146ee415e1fa1d1ba73c755f"
   }
 ]
 
