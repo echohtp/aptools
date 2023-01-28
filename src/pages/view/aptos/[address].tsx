@@ -58,6 +58,8 @@ const AptosWalletNftViewer = () => {
             }).then(res => {
                 console.log(res)
                 let _tokens = res.data.token_ownerships.map((t: any) => t.token_data_id_hash)
+                let _stokens = new Set(_tokens)
+                _tokens = Array.from(_stokens)
                 setMyTokens(_tokens)
             })
         }
