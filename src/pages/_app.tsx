@@ -22,6 +22,10 @@ import {
   WalletModalProvider
 } from '@solana/wallet-adapter-react-ui';
 import { clusterApiUrl } from '@solana/web3.js';
+import { ApolloProvider as AptosApolloProvider } from "@apollo/client";
+import { ApolloProvider as HolaplexApolloProvider } from "@apollo/client";
+import holaplexClient from "@/lib/apollo/holaplex-client";
+import aptosClient from '@/lib/apollo/aptos-client';
 
 
 import "@aptos-labs/wallet-adapter-ant-design/dist/index.css";
@@ -52,14 +56,18 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <AppContext>
-      <ConnectionProvider endpoint={endpoint}>
-        <WalletProvider wallets={wallets}>
-          <ToastContainer />
-          <WalletModalProvider>
-            <Component {...pageProps} />
-          </WalletModalProvider>
-        </WalletProvider>
-      </ConnectionProvider>
+      <HolaplexApolloProvider client={holaplexClient}>
+        <AptosApolloProvider client={aptosClient}>
+          <ConnectionProvider endpoint={endpoint}>
+            <WalletProvider wallets={wallets}>
+              <ToastContainer />
+              <WalletModalProvider>
+                <Component {...pageProps} />
+              </WalletModalProvider>
+            </WalletProvider>
+          </ConnectionProvider>
+        </AptosApolloProvider>
+      </HolaplexApolloProvider>
     </AppContext>
   );
 }

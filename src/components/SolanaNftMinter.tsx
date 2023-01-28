@@ -4,14 +4,18 @@ import { NFTStorage } from 'nft.storage'
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useMemo } from "react";
 import { Connection } from '@solana/web3.js'
-
+import { Button } from 'antd'
 import {
     Metaplex,
     walletAdapterIdentity,
     toMetaplexFileFromBrowser,
 } from '@metaplex-foundation/js'
+import { BarLoader } from "react-spinners";
+import { toast } from "react-toastify";
+
 
 const fileTypes = ["JPG", "PNG", "GIF", "JPEG", "MP4", "GLB", "HTML"];
+const coverFileType = ["JPG", "PNG", "JPEG"];
 
 const SolanaNftMinter = () => {
 
@@ -139,70 +143,71 @@ const SolanaNftMinter = () => {
                         >
                             {fileLoading &&
                                 <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                                <div className="space-y-1 text-center">
-
-                                    <svg
-                                        className="mx-auto h-12 w-12 text-gray-400"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        viewBox="0 0 48 48"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                            strokeWidth={2}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                    <div className="flex text-sm text-gray-600">
-                                        <label
-                                            htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2  focus-within:ring-offset-2 "
-                                        >
-                                            <span>Loader goes heres</span>
-                                        </label>
+                                    <div className="space-y-1 text-center">
+                                        {fileCid ? <img src={`https://ipfs.io/ipfs/${fileCid}`} width={300} alt={nftName} /> :
+                                            <svg
+                                                className="mx-auto h-12 w-12 text-gray-400"
+                                                stroke="currentColor"
+                                                fill="none"
+                                                viewBox="0 0 48 48"
+                                                aria-hidden="true"
+                                            >
+                                                <path
+                                                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                    strokeWidth={2}
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                            </svg>
+                                        }
+                                        <div className="flex text-sm text-gray-600">
+                                            <label
+                                                htmlFor="file-upload"
+                                                className="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2  focus-within:ring-offset-2 "
+                                            >
+                                                <BarLoader color="#36d7b7" />
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
-                                </div> 
                             }
                             {!fileCid && !fileLoading &&
-                            <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                                <div className="space-y-1 text-center">
+                                <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                                    <div className="space-y-1 text-center">
 
-                                    <svg
-                                        className="mx-auto h-12 w-12 text-gray-400"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        viewBox="0 0 48 48"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                            strokeWidth={2}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                    <div className="flex text-sm text-gray-600">
-                                        <label
-                                            htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2  focus-within:ring-offset-2 "
+                                        <svg
+                                            className="mx-auto h-12 w-12 text-gray-400"
+                                            stroke="currentColor"
+                                            fill="none"
+                                            viewBox="0 0 48 48"
+                                            aria-hidden="true"
                                         >
-                                            <span>Upload a file</span>
-                                        </label>
-                                        <p className="pl-1">or drag and drop</p>
+                                            <path
+                                                d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                strokeWidth={2}
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                            />
+                                        </svg>
+                                        <div className="flex text-sm text-gray-600">
+                                            <label
+                                                htmlFor="file-upload"
+                                                className="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2  focus-within:ring-offset-2 "
+                                            >
+                                                <span>Upload a file</span>
+                                            </label>
+                                            <p className="pl-1">or drag and drop</p>
+                                        </div>
+                                        <p className="text-xs text-gray-500">Image or Video, no file size limit.</p>
                                     </div>
-                                    <p className="text-xs text-gray-500">Image or Video, no file size limit.</p>
-                                </div>
-                            </div>}
+                                </div>}
                             {!fileLoading && fileCid && <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
                                 <div className="space-y-1 text-center">
-                                    {fileType.includes('image') && 
-                                    <img src={`https://ipfs.io/ipfs/${fileCid}`} width={300} alt={nftName} />
+                                    {fileType.includes('image') &&
+                                        <img src={`https://ipfs.io/ipfs/${fileCid}`} width={300} alt={nftName} />
                                     }
-                                    {fileType.includes('video') && 
-                                    <video src={`https://ipfs.io/ipfs/${fileCid}`} width={300} autoPlay controls/>
+                                    {fileType.includes('video') &&
+                                        <video src={`https://ipfs.io/ipfs/${fileCid}`} width={300} autoPlay controls />
                                     }
                                     <div className="flex justify-center text-sm text-gray-600">
                                         <label
@@ -219,99 +224,104 @@ const SolanaNftMinter = () => {
                         </FileUploader>
                     </div>
 
-                    {fileCid && !fileType.includes('image') && 
+                    {fileCid && !fileType.includes('image') &&
                         <div className="col-span-3">
-                        <label className="block text-sm font-medium text-gray-700">Cover Image</label>
-                        <FileUploader
-                            handleChange={handleCoverChange}
-                            name="file"
-                            types={fileTypes}
-                        >
-                            {fileLoading &&
-                            <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                            <div className="space-y-1 text-center">
+                            <label className="block text-sm font-medium text-gray-700">Cover Image</label>
+                            <FileUploader
+                                handleChange={handleCoverChange}
+                                name="file"
+                                types={coverFileType}
+                            >
+                                {fileCoverLoading &&
+                                    <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                                        <div className="space-y-1 text-center">
 
-                                <svg
-                                    className="mx-auto h-12 w-12 text-gray-400"
-                                    stroke="currentColor"
-                                    fill="none"
-                                    viewBox="0 0 48 48"
-                                    aria-hidden="true"
-                                >
-                                    <path
-                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                        strokeWidth={2}
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                    />
-                                </svg>
-                                <div className="flex text-sm text-gray-600">
-                                    <label
-                                        htmlFor="file-upload"
-                                        className="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2  focus-within:ring-offset-2 "
-                                    >
-                                        <span>Loader goes heres</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div> }
-                            {!fileCoverCid && 
-                            <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                                <div className="space-y-1 text-center">
+                                            {fileCoverCid ? <img src={`https://ipfs.io/ipfs/${fileCoverCid}`} width={300} alt={nftName} /> :
+                                                <svg
+                                                    className="mx-auto h-12 w-12 text-gray-400"
+                                                    stroke="currentColor"
+                                                    fill="none"
+                                                    viewBox="0 0 48 48"
+                                                    aria-hidden="true"
+                                                >
+                                                    <path
+                                                        d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                        strokeWidth={2}
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                    />
+                                                </svg>
+                                            }
+                                            <div className="flex text-sm text-gray-600">
+                                                <label
+                                                    htmlFor="file-upload"
+                                                    className="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2  focus-within:ring-offset-2 "
+                                                >
+                                                    <BarLoader color="#36d7b7" />
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>}
+                                {!fileCoverCid &&
+                                    <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                                        <div className="space-y-1 text-center">
 
-                                    <svg
-                                        className="mx-auto h-12 w-12 text-gray-400"
-                                        stroke="currentColor"
-                                        fill="none"
-                                        viewBox="0 0 48 48"
-                                        aria-hidden="true"
-                                    >
-                                        <path
-                                            d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
-                                            strokeWidth={2}
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                        />
-                                    </svg>
-                                    <div className="flex text-sm text-gray-600">
-                                        <label
-                                            htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2  focus-within:ring-offset-2 "
-                                        >
-                                            <span>Upload a file</span>
-                                        </label>
-                                        <p className="pl-1">or drag and drop</p>
+                                            <svg
+                                                className="mx-auto h-12 w-12 text-gray-400"
+                                                stroke="currentColor"
+                                                fill="none"
+                                                viewBox="0 0 48 48"
+                                                aria-hidden="true"
+                                            >
+                                                <path
+                                                    d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02"
+                                                    strokeWidth={2}
+                                                    strokeLinecap="round"
+                                                    strokeLinejoin="round"
+                                                />
+                                            </svg>
+                                            <div className="flex text-sm text-gray-600">
+                                                <label
+                                                    htmlFor="file-upload"
+                                                    className="relative cursor-pointer rounded-md bg-white font-medium  focus-within:outline-none focus-within:ring-2  focus-within:ring-offset-2 "
+                                                >
+                                                    <span>Upload a file</span>
+                                                </label>
+                                                <p className="pl-1">or drag and drop</p>
+                                            </div>
+                                            <p className="text-xs text-gray-500">Image or Video, no file size limit.</p>
+                                        </div>
+                                    </div>}
+
+
+                                {!fileCoverLoading && fileCoverCid && <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
+                                    <div className="space-y-1 text-center">
+                                        <img src={`https://ipfs.io/ipfs/${fileCoverCid}`} width={300} alt={nftName} />
+
+                                        <div className="flex justify-center text-sm text-gray-600">
+                                            <label
+                                                htmlFor="file-upload"
+                                                className="relative cursor-pointer rounded-md bg-white font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 "
+                                            >
+                                                <span>Replace the file</span>
+                                            </label>
+                                            <p className="pl-1">or drag and drop</p>
+                                        </div>
+                                        <p className="text-xs text-gray-500">PNG, JPG, GIF, no file size limit.</p>
                                     </div>
-                                    <p className="text-xs text-gray-500">Image or Video, no file size limit.</p>
-                                </div>
-                            </div>}
-                            {!fileCoverLoading && fileCoverCid && <div className="mt-1 flex justify-center rounded-md border-2 border-dashed border-gray-300 px-6 pt-5 pb-6">
-                                <div className="space-y-1 text-center">
-                                    <img src={`https://ipfs.io/ipfs/${fileCoverCid}`} width={300} alt={nftName} />
-                                    
-                                    <div className="flex justify-center text-sm text-gray-600">
-                                        <label
-                                            htmlFor="file-upload"
-                                            className="relative cursor-pointer rounded-md bg-white font-medium focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 "
-                                        >
-                                            <span>Replace the file</span>
-                                        </label>
-                                        <p className="pl-1">or drag and drop</p>
-                                    </div>
-                                    <p className="text-xs text-gray-500">PNG, JPG, GIF, no file size limit.</p>
-                                </div>
-                            </div>}
-                        </FileUploader>
+                                </div>}
+                            </FileUploader>
                         </div>
                     }
                 </div>
             </div>
             <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                <button
-                    className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                <Button
+                    loading={mintLoading}
+                    className="border border-transparent bg-indigo-600 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                     onClick={async () => {
                         console.log("mint it")
-
+                        setMintLoading(true)
                         let _metaplexData = metaplexData
                         _metaplexData.name = nftName
                         _metaplexData.description = nftDescription
@@ -335,14 +345,17 @@ const SolanaNftMinter = () => {
                             name: nftName,
                             sellerFeeBasisPoints: 10 * 100,
                             uri: `https://ipfs.io/ipfs/${cid}`
-                        }).catch(() => { }).finally(() => {
+                        }).catch((e) => {
+                            toast(e)
+                         }).finally(() => {
+                            toast("Done!")
                             setMintLoading(false)
                         })
 
                     }}
                 >
                     Mint
-                </button>
+                </Button>
             </div>
         </>
     )

@@ -7,7 +7,7 @@ import { AptosClient } from 'aptos'
 import { useWallet } from "@aptos-labs/wallet-adapter-react";
 import { TransactionPayload } from '@martiandao/aptos-web3.js/dist/api/data-contracts';
 import { toast } from 'react-toastify'
-
+import {Button} from 'antd'
 export default function AptosCollectionMinter() {
 
     const client = new AptosClient(process.env.NEXT_PUBLIC_APTOS_URL!);
@@ -17,7 +17,7 @@ export default function AptosCollectionMinter() {
     const [collectionName, setCollectionName] = useState<string>("")
     const [collectionDescription, setCollectionDescription] = useState<string>("")
     const [collectionUrl, setCollectionUrl] = useState<string>("")
-
+    const [mintLoading, setMintLoading] = useState<boolean>(false)
     const [cid, setCid] = useState<any>(null);
     const { signAndSubmitTransaction } = useWallet()
 
@@ -80,7 +80,7 @@ export default function AptosCollectionMinter() {
                                         id="about"
                                         name="about"
                                         rows={3}
-                                        className="block w-full max-w-lg rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+                                        className="block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                         defaultValue={''}
                                         onChange={(e) => {
                                             setCollectionDescription(e.target.value)
@@ -114,10 +114,12 @@ export default function AptosCollectionMinter() {
                             </div>
                         </div>
                         <div className="bg-gray-50 px-4 py-3 text-right sm:px-6">
-                            <button
-                                className="ml-3 inline-flex justify-center rounded-md border border-transparent bg-indigo-600 py-2 px-4 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+                            <Button
+                            loading={mintLoading}
+                                className="border border-transparent bg-indigo-600 font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
                                 onClick={async () => {
                                     console.log("mint it")
+                                    setMintLoading(true)
                                     const payload: TransactionPayload = {
                                         type: "entry_function_payload",
                                         function: "0x3::token::create_collection_script",
@@ -152,11 +154,13 @@ export default function AptosCollectionMinter() {
                                     } catch (error: any) {
                                         console.log("error", error);
                                         toast(error)
+                                    }finally{
+                                        setMintLoading(false)
                                     }
                                 }}
                             >
                                 Mint
-                            </button>
+                            </Button>
                         </div>
                     </div>}
                 </div>

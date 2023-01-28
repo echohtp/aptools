@@ -1,6 +1,6 @@
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/24/outline'
+import { WalletIcon } from '@heroicons/react/24/outline'
 import { WalletSelector as AptosWalletSelector } from '@aptos-labs/wallet-adapter-ant-design'
 import { WalletMultiButton as SolanaWalletSelector } from '@solana/wallet-adapter-react-ui'
 interface WalletSelectorProps {
@@ -39,11 +39,11 @@ export default function WalletSelector({open, setOpen}:WalletSelectorProps ) {
               <Dialog.Panel className="relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6">
                 <div>
                   <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100">
-                    <CheckIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
+                    <WalletIcon className="h-6 w-6 text-green-600" aria-hidden="true" />
                   </div>
                   <div className="mt-3 text-center sm:mt-5">
                     <Dialog.Title as="h3" className="text-lg font-medium leading-6 text-gray-900">
-                      Connect your wallet
+                      Choose your wallet
                     </Dialog.Title>
                     <div className="mt-2">
                       <p className="text-sm text-gray-500">
@@ -53,11 +53,12 @@ export default function WalletSelector({open, setOpen}:WalletSelectorProps ) {
                   </div>
                 </div>
                 <div className="mt-5 sm:mt-6">
-                    Aptos: <AptosWalletSelector/>
+                    Aptos<br/>
+                    <AptosWalletSelector/>
                 </div>
 
                 <div className="mt-5 sm:mt-6">
-                    Solana: <div className='bg-purple-600'><SolanaWalletSelector/></div>
+                    Solana <div className='bg-[#3f67ff] rounded-sm'><SolanaWalletSelector className='w-full block'/></div>
                 </div>
 
                 <div className="mt-5 sm:mt-6">
@@ -66,7 +67,7 @@ export default function WalletSelector({open, setOpen}:WalletSelectorProps ) {
                     className="inline-flex w-full justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-base font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 sm:text-sm"
                     onClick={() => setOpen(false)}
                   >
-                    Go back to dashboard
+                    Close
                   </button>
                 </div>
               </Dialog.Panel>

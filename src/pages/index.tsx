@@ -1,5 +1,4 @@
 import Layout from '@/components/Layout'
-
 import {
   Bars4Icon,
   CalendarIcon,

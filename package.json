@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@apollo/client": "^3.7.5",
     "@aptos-labs/wallet-adapter-ant-design": "^0.1.1",
     "@aptos-labs/wallet-adapter-react": "^0.2.3",
     "@emotion/react": "^11.10.5",
@@ -33,12 +34,14 @@
     "eslint": "8.32.0",
     "eslint-config-next": "13.1.5",
     "fewcha-plugin-wallet-adapter": "^0.1.1",
+    "graphql": "^16.6.0",
     "next": "13.1.5",
     "nft.storage": "^7.0.0",
     "petra-plugin-wallet-adapter": "^0.1.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-drag-drop-files": "^2.3.8",
+    "react-spinners": "^0.13.8",
     "react-toastify": "^9.1.1",
     "typescript": "4.9.4"
   },

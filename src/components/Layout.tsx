@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from 'next/link';
 import Head from 'next/head'
-import React, { useState, useEffect, useMemo, Fragment } from "react";
+import React, { useState, Fragment } from "react";
 import WalletSelector from '@/components/WalletSelector';
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { useWallet as solanaUseWallet } from '@solana/wallet-adapter-react';
@@ -22,13 +23,6 @@ export default function Layout({ children }: any) {
   const aptosWallet = aptosUseWallet()
   const connected = solanaWallet.connected || aptosWallet.connected
 
-  const debug = () =>{
-    console.log("Solana: ", solanaWallet.connected)
-    console.log("Aptos: ", aptosWallet.connected)
-  }
-
-  debug()
-
   return (
     <>
       <Head>
@@ -47,7 +41,9 @@ export default function Layout({ children }: any) {
                     <div className="flex h-16 items-center justify-between px-4 sm:px-0">
                       <div className="flex items-center">
                         <div className="flex-shrink-0">
+                          <Link href="/">
                           <img className="h-8 w-8" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500" alt="Your Company" />
+                          </Link>
                         </div>
                         <div className="block">
                           <div className="ml-10 flex items-baseline space-x-4">
