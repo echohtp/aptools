@@ -6,7 +6,8 @@ import aptosClient from '@/lib/apollo/aptos-client';
 import { useState } from 'react';
 import { EyeIcon, WalletIcon } from '@heroicons/react/20/solid'
 import { PublicKey } from '@solana/web3.js';
-
+import { BarLoader } from 'react-spinners';
+import * as ga from '@/lib/ga'
 
 const AptosWalletNftViewer = () => {
 
@@ -16,6 +17,7 @@ const AptosWalletNftViewer = () => {
     const [myNfts, setMyNfts] = useState<any[] | null>()
     const [myTokens, setMyTokens] = useState<string[]>([])
     const [searchAddress, setSearchAddress] = useState<string>("")
+    const [loading, setLoading] = useState<boolean>(true)
 
     const GET_TOKENS = gql`
         query GetTokens($address: String) {
@@ -85,33 +87,38 @@ const AptosWalletNftViewer = () => {
                 console.log(_nft)
             }
             setMyNfts(_nfts)
+            setLoading(false)
+            ga.event({
+                action: 'aptos_wallet_viewed',
+                params: { who: address }
+            })
 
         }
     }, [myTokens, GET_TOKEN])
 
     const handleSearch = () => {
+        setLoading(true)
         console.log("search it: ", searchAddress)
         try {
             const _pk = new PublicKey(searchAddress)
             router.push(`../solana/${searchAddress}`)
-        }catch{
+        } catch {
             console.log("not a solana address")
             setMyNfts([])
             router.push(`../aptos/${searchAddress}`)
+        } finally {
+            setLoading(false)
         }
 
-    }   
+    }
 
     return (
         <>
             <Layout>
-
                 <div className="rounded-lg bg-white px-5 py-6  shadow sm:px-6">
-
-
                     <div className='mb-4 pb-4 border-b border-gray-300'>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                            Search candidates
+                            View a wallet
                         </label>
                         <div className="mt-1 flex rounded-md shadow-sm">
                             <div className="relative flex flex-grow items-stretch focus-within:z-10">
@@ -124,11 +131,11 @@ const AptosWalletNftViewer = () => {
                                     id="address"
                                     className="block w-full rounded-none rounded-l-md border-gray-300 pl-10 focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
                                     placeholder={String(address)}
-                                    onChange={(e)=>{
+                                    onChange={(e) => {
                                         setSearchAddress(e.target.value)
                                     }}
-                                    onKeyDown={(e)=>{
-                                        if (e.key === "Enter"){
+                                    onKeyDown={(e) => {
+                                        if (e.key === "Enter") {
                                             handleSearch()
                                         }
                                     }}
@@ -147,10 +154,11 @@ const AptosWalletNftViewer = () => {
 
 
                     <ul role="list" className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 sm:gap-x-6 lg:grid-cols-4 xl:gap-x-8">
-                        {myNfts && myNfts.map((file) => (
+                        {loading && <><BarLoader color='#000000' /></>}
+                        {!loading && myNfts && myNfts.map((file) => (
                             <li key={file.metadata_uri} className="relative">
                                 <div className="group aspect-w-10 aspect-h-7 block w-full overflow-hidden rounded-lg bg-gray-100 focus-within:ring-2 focus-within:ring-indigo-500 focus-within:ring-offset-2 focus-within:ring-offset-gray-100">
-                                    <img src={file.metadata_uri } alt="" className="pointer-events-none object-cover group-hover:opacity-75" />
+                                    <img src={file.metadata_uri} alt="" className="pointer-events-none object-cover group-hover:opacity-75" />
                                     <button type="button" className="absolute inset-0 focus:outline-none">
                                         <span className="sr-only">View details for {file.name}</span>
                                     </button>
