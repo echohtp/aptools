@@ -2,6 +2,9 @@ import Layout from '@/components/Layout'
 import {
   Bars4Icon,
   CalendarIcon,
+  EyeIcon,
+  PhotoIcon,
+  Square3Stack3DIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
@@ -14,22 +17,22 @@ const items = [
   {
     title: 'Create Collection',
     description: 'Create a new NFT Collection',
-    icon: Bars4Icon,
+    icon: Square3Stack3DIcon,
     background: 'bg-pink-500',
     href: "/create/collection"
   },
   {
     title: 'Create NFT',
     description: 'Create a brand new NFT',
-    icon: CalendarIcon,
+    icon: PhotoIcon,
     background: 'bg-yellow-500',
     href: "/create/nft"
   },
   {
     title: 'Wallet Viewer',
     description: 'Take a look at the NFTs in a wallet',
-    icon: CalendarIcon,
-    background: 'bg-yellow-500',
+    icon: EyeIcon,
+    background: 'bg-blue-500',
     href: "/view/aptos/0x9575253d99d957f23c8085924b7c91b23f5d49c1146ee415e1fa1d1ba73c755f"
   }
 ]
